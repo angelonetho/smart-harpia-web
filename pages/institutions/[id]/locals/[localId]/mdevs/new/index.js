@@ -129,10 +129,10 @@ export default function UserProfile() {
       }
 
       toast.success("Feito");
-      router.push(`/locals/${parameter}/mdevs/`);
+      router.push(`/institutions/${institutionId}/locals/${parameter}/mdevs/`);
     } catch (error) {
       console.log(error);
-      toast.error(error);
+      toast.error(" " + error);
     }
     setLoading(false);
   };
@@ -173,7 +173,6 @@ export default function UserProfile() {
             type="link"
             value={values.imagePath}
             onChange={handleChange}
-            required
           />
           <SelectInput
             name="local"
