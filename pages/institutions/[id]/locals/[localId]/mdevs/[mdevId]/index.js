@@ -172,7 +172,7 @@ export default function UserProfile() {
       toast.success("Feito");
     } catch (error) {
       console.log(error);
-      toast.error(error);
+      toast.error("Erro real" + error);
     }
     setLoading(false);
   };
@@ -242,19 +242,19 @@ export default function UserProfile() {
           />
 
           <DefaultButton text={"Salvar"} animation={loading} />
-          <div>
-            <LinkArrow
-              href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/records`}
-            >
-              Visualizar registros
-            </LinkArrow>
-            <LinkArrow
-              href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/devices`}
-            >
-              Visualizar dispostivos
-            </LinkArrow>
-          </div>
         </form>
+        <div>
+          <LinkArrow
+            href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/records`}
+          >
+            Visualizar registros
+          </LinkArrow>
+          <LinkArrow
+            href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/devices`}
+          >
+            Visualizar dispostivos
+          </LinkArrow>
+        </div>
       </div>
 
       <style jsx>{`
