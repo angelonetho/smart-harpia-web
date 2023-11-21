@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { withSession } from "../../../src/services/auth/session";
+import { toast } from "react-toastify";
+
 import VariantButton from "../../../src/components/buttons/default/Variant";
 import DefaultInput from "../../../src/components/inputs/Default/";
 import SwitchInput from "../../../src/components/inputs/Switch";
 import ProfilePicture from "../../../src/components/ProfilePicture";
-import { tokenService } from "../../../src/services/auth/tokenService";
 import { HttpClient } from "../../../src/infra/HttpClient/HttpClient";
-import toast from "react-toastify";
+import { withSession } from "../../../src/services/auth/session";
+import { tokenService } from "../../../src/services/auth/tokenService";
 
 export default function Institution() {
   const [loading, setLoading] = useState(false);
