@@ -14,6 +14,7 @@ export default function Logs() {
   const [term, setTerm] = useState("");
   const [page, setPage] = useState(1);
   const [realtime, setRealtime] = useState(false);
+  const [total, setTotal] = useState(0);
 
   const handleRealtime = () => {
     setRealtime(!realtime);
@@ -47,11 +48,13 @@ export default function Logs() {
         },
       }
     ).then(({ body }) => {
-      const data = body.logs;
+      const data = body.mdev.logs;
 
       const updatedData = verifyDevicesName(data);
-
       setData(updatedData);
+
+      const total = body.totalLogs[0].total;
+      setTotal(total);
     });
   }, [parameter, page, realtime]);
 
@@ -132,6 +135,7 @@ export default function Logs() {
               ))}
             </tbody>
           </table>
+          <p>{total} registros encontrados</p>
           <Pagination page={page} setPage={setPage}></Pagination>
           <div className="space"></div>
         </>
@@ -149,6 +153,13 @@ export default function Logs() {
           font-weight: 700;
           line-height: normal;
           user-select: none;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: normal;
+          color: #9a9a9a;
+          margin: 16px;
         }
 
         .container {
