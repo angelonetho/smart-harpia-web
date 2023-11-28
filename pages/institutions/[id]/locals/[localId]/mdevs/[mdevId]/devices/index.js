@@ -1,11 +1,12 @@
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
 import CardLine from "../../../../../../../../src/components/CardLine";
 import SearchInput from "../../../../../../../../src/components/inputs/SearchInput";
+import Pagination from "../../../../../../../../src/components/Pagination";
 import { HttpClient } from "../../../../../../../../src/infra/HttpClient/HttpClient";
-import { tokenService } from "../../../../../../../../src/services/auth/tokenService";
-
-import { useRouter } from "next/router";
 import { withSession } from "../../../../../../../../src/services/auth/session";
+import { tokenService } from "../../../../../../../../src/services/auth/tokenService";
 
 export default function Institution() {
   const router = useRouter();
@@ -15,11 +16,13 @@ export default function Institution() {
 
   const [devices, setDevices] = useState([]);
   const [search, setSearch] = useState("");
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     const token = tokenService.get();
     HttpClient(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/mdevs/${mdevId}/devices`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/mdevs/${mdevId}/devices?page=${page}`,
       {
         method: "GET",
         headers: {
@@ -30,12 +33,16 @@ export default function Institution() {
       console.log(response);
 
       const devices = response.body.devices;
+
+      //Função para nomear dispositivos
       const updatedDevices = verifyDevicesName(devices);
-      //Função
 
       setDevices(updatedDevices);
+
+      const total = response.body.totalDevices[0].total;
+      setTotal(total);
     });
-  }, []);
+  }, [page]);
 
   function verifyDevicesName(devices) {
     // Verifica cada dispositivo
@@ -62,6 +69,7 @@ export default function Institution() {
   return (
     <div>
       <h1>Dispositivos</h1>
+
       <div className="container">
         <SearchInput value={search} onChange={handleSearch} />
 
@@ -72,10 +80,13 @@ export default function Institution() {
             href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/devices/${device.id}`}
           />
         ))}
+        <p>{total} dispositivos encontrados</p>
+        <Pagination page={page} setPage={setPage}></Pagination>
       </div>
 
       <style jsx>{`
-        h1 {
+        h1,
+        p {
           color: var(--Text, #fff);
           text-align: center;
           margin-top: 32px;
@@ -85,6 +96,13 @@ export default function Institution() {
           font-weight: 700;
           line-height: normal;
           user-select: none;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: normal;
+          color: #9a9a9a;
+          margin: 16px;
         }
 
         .container {
