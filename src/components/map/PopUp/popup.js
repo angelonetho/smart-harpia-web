@@ -27,7 +27,9 @@ export default function PopupCard({ mdev, onClose, user }) {
           >
             <button>Detalhes</button>
           </Link>
-          <Link href={""}>
+          <Link
+            href={`/institutions/${user.institution_id}/locals/${mdev.local_id}/mdevs/${mdev.id}/report-page`}
+          >
             <button>Relatório</button>
           </Link>
         </div>
