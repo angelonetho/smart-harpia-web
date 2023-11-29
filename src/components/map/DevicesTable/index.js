@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { useRouter } from "next/router";
 import { X } from "@phosphor-icons/react";
+import { useState } from "react";
 
 export default function DevicesTable({ mdev, onClose, user }) {
   const router = useRouter();
@@ -33,10 +34,10 @@ export default function DevicesTable({ mdev, onClose, user }) {
       </span>
       <div className="title">
         <h1>
-          {data.logs.length === 1
-            ? `${data.logs.length} Dispositivo detectado`
-            : data.logs.length > 1
-            ? `${data.logs.length} Dispositivos detectados`
+          {data.mdev.logs.length === 1
+            ? `${data.mdev.logs.length} Dispositivo detectado`
+            : data.mdev.logs.length > 1
+            ? `${data.mdev.logs.length} Dispositivos detectados`
             : "Nenhum dispositivo detectado"}
         </h1>
       </div>
@@ -49,7 +50,7 @@ export default function DevicesTable({ mdev, onClose, user }) {
           </tr>
         </thead>
         <tbody>
-          {data.logs.map((item) => (
+          {data.mdev.logs.map((item) => (
             <tr key={item.id}>
               <td
                 className="tableCellDevice"
