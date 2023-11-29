@@ -61,7 +61,7 @@ export default function UserProfile() {
         });
         setLocals(result);
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -97,7 +97,7 @@ export default function UserProfile() {
 
         setActive(mdev.active);
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -166,13 +166,13 @@ export default function UserProfile() {
       if (response.status !== 200) {
         console.log(response);
         console.log(values);
-        throw new Error("Erro ao adicionar: " + response.body.message);
+        throw new Error("" + response.body.message);
       }
 
       toast.success("Feito");
     } catch (error) {
       console.log(error);
-      toast.error("Erro real" + error);
+      toast.error("" + error);
     }
     setLoading(false);
   };
@@ -253,6 +253,11 @@ export default function UserProfile() {
             href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/devices`}
           >
             Visualizar dispostivos
+          </LinkArrow>
+          <LinkArrow
+            href={`/institutions/${institutionId}/locals/${localId}/mdevs/${mdevId}/report-page`}
+          >
+            Visualizar relatório
           </LinkArrow>
         </div>
       </div>
