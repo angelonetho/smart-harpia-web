@@ -11,7 +11,7 @@ import { HttpClient } from "../../../../../src/infra/HttpClient/HttpClient";
 import { withSession } from "../../../../../src/services/auth/session";
 import { tokenService } from "../../../../../src/services/auth/tokenService";
 
-export default function UserProfile() {
+export default function UserProfile(ctx) {
   const [loading, setLoading] = useState(false);
 
   const [states, setStates] = useState([]);
@@ -40,7 +40,7 @@ export default function UserProfile() {
 
         setCities(response.body);
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -63,7 +63,7 @@ export default function UserProfile() {
 
         setStates(response.body);
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -94,7 +94,7 @@ export default function UserProfile() {
           ibgeCode: local.ibge_code,
         });
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -123,7 +123,7 @@ export default function UserProfile() {
           ibgeCode: values.ibgeCode,
         });
       } catch (error) {
-        toast.error(error);
+        toast.error("Erro: " + error);
       }
     };
 
@@ -168,14 +168,14 @@ export default function UserProfile() {
       );
 
       if (response.status !== 200) {
-        throw new Error("Erro ao atualizar: " + response.body.message);
+        throw new Error(response.body.message + "");
       }
 
       toast.success("Feito");
       router.push(`/institutions/${id}/locals/`);
     } catch (error) {
       console.log(error);
-      toast.error(error);
+      toast.error("" + error);
     }
     setLoading(false);
   };
@@ -259,7 +259,11 @@ export default function UserProfile() {
 
           <DefaultButton text={"Salvar"} animation={loading} />
         </form>
-        <VariantButton text={"Apagar"} onClick={deleteLocal} />
+        <VariantButton
+          text={"Apagar"}
+          onClick={deleteLocal}
+          disabled={!ctx.session.user.system_admin}
+        />
 
         <LinkArrow href={`/institutions/${id}/locals/${parameter}/mdevs`}>
           Visualizar mdevs
