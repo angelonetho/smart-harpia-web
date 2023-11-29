@@ -1,21 +1,21 @@
 import React from "react";
 
+import AboutComponent from "../src/components/homePage/About";
 import NavBar from "../src/components/homePage/NavBar";
 import Video from "../src/components/homePage/NavBar/VideoContainer";
-import AboutComponent from "../src/components/homePage/About";
 
 function HomePage() {
   return (
     <div>
       <NavBar />
       <Video />
-      <AboutComponent />
+     
       <div>
         <section>
-          <h2>Como Funciona?</h2>
+        <AboutComponent />
         </section>
       </div>
-      <AboutComponent />
+     
 
       <style jsx>{`
         section {

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { HttpClient } from "../../../src/infra/HttpClient/HttpClient";
-import { tokenService } from "../../../src/services/auth/tokenService";
 import { useRouter } from "next/router";
-import { withSession } from "../../../src/services/auth/session";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
 import DefaultButton from "../../../src/components/buttons/default/Default";
-import ProfilePicture from "../../../src/components/ProfilePicture";
 import DefaultInput from "../../../src/components/inputs/Default";
 import SwitchInput from "../../../src/components/inputs/Switch";
 import Link from "../../../src/components/Link";
-import { toast } from "react-toastify";
+import ProfilePicture from "../../../src/components/ProfilePicture";
+import { HttpClient } from "../../../src/infra/HttpClient/HttpClient";
+import { withSession } from "../../../src/services/auth/session";
+import { tokenService } from "../../../src/services/auth/tokenService";
 
 export default function Institution(ctx) {
   const [loading, setLoading] = useState(false);
@@ -58,50 +59,16 @@ export default function Institution(ctx) {
         imagePath: institution.image_path,
       });
       setActive(institution.active);
-      console.log(values);
     });
   }, []);
-
-  function sendPatchRequest() {
-    setLoading(true);
-    const token = tokenService.get();
-
-    HttpClient(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/institutions/${parameter}`,
-      {
-        method: "PUT",
-        body: {
-          name: values.name,
-          abbreviation: values.abbreviation,
-          imagePath: values.imagePath,
-          active,
-        },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
-      .catch((error) => {
-        toast.error(error);
-      })
-
-      .then((response) => {
-        if (!response.ok) {
-          toast.error("Erro");
-        } else {
-          toast.success("Feito");
-        }
-
-        setLoading(false);
-      });
-  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     const token = tokenService.get();
+
     try {
-      await HttpClient(
+      const response = await HttpClient(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/institutions/${parameter}`,
         {
           method: "PUT",
@@ -116,11 +83,16 @@ export default function Institution(ctx) {
           },
         }
       );
-      toast.success("Feito");
+
+      if (!response.ok) {
+        toast.error("Erro: " + response.body.message);
+      } else {
+        toast.success("Feito");
+      }
     } catch (error) {
-      console.log(error);
-      toast.error("Error" + error);
+      toast.error("" + error);
     }
+
     setLoading(false);
   };
 
