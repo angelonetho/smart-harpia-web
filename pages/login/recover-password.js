@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { authService } from "../../src/services/auth/authService";
-import { useRouter } from "next/router";
-
-import Input from "../../src/components/login/Input";
-import Button from "../../src/components/login/button";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+
+import Button from "../../src/components/login/button";
+import Input from "../../src/components/login/Input";
 import { HttpClient } from "../../src/infra/HttpClient/HttpClient";
-import toast from "react-toastify";
+import { authService } from "../../src/services/auth/authService";
 
 function LoginPage() {
   const router = useRouter();
@@ -34,13 +34,13 @@ function LoginPage() {
       method: "POST",
       body: {
         email: values.email,
-        resetPasswordUrl: "http://localhost:3000/login/reset-password",
+        resetPasswordUrl: `http://smart-harpia.netho.dev/login/reset-password`,
       },
     }).then((response) => {
       if (response.status !== 204) {
         toast.error("Erro");
       } else {
-        toast.sucess("Feito");
+        toast.success("Feito");
       }
 
       console.log(response);

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { authService } from "../../src/services/auth/authService";
 import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-import Input from "../../src/components/login/Input";
 import Button from "../../src/components/login/button";
+import Input from "../../src/components/login/Input";
 import { HttpClient } from "../../src/infra/HttpClient/HttpClient";
-import toast from "react-toastify";
 
 function LoginPage() {
   const router = useRouter();
@@ -78,6 +77,7 @@ function LoginPage() {
           font-size: 1.5rem;
           margin-bottom: 20px;
           weight: 600;
+          color: white;
         }
 
         .login-form {
